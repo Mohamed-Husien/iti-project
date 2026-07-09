@@ -1,0 +1,109 @@
+import 'package:first_app/pages/home_page.dart';
+import 'package:flutter/material.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.grey,
+        centerTitle: true,
+        title: Text("Login Page"),
+      ),
+      body: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Welcome back ",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 12),
+                //email text filed
+                TextFormField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.mail),
+                    label: Text("Email"),
+                    hint: Text("Please enter you email"),
+
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "please Enter Your Email";
+                    } else if (!value.contains('@')) {
+                      return "please enter email with @ ";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 32),
+
+                //password text filed
+                TextFormField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    hint: Text("Please enter password"),
+                    label: Text("Password"),
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.password),
+                  ),
+                  validator: (value) {
+                    if (value!.length < 8) {
+                      return "please enter strong password";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 32),
+
+                ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      debugPrint("Mail${emailController.text}");
+                      debugPrint("Password:${passwordController.text}");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    }
+                  },
+                  child: Text(
+                    "Login",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
