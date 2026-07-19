@@ -1,16 +1,15 @@
 import 'package:first_app/pages/home_page.dart';
-import 'package:first_app/pages/register_page.dart';
 import 'package:first_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -28,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey,
         centerTitle: true,
-        title: Text("Login Page"),
+        title: Text("Register Page"),
       ),
       body: SizedBox(
         width: double.infinity,
@@ -41,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Welcome back ",
+                  "Welcome in our app ",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 12),
@@ -65,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
-
                 SizedBox(height: 32),
 
                 //password text filed
@@ -86,13 +84,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
-                    );
+                    Navigator.pop(context);
                   },
-                  child: Text("You don't have an account?"),
+                  child: Text("Already have an account?"),
                 ),
+
                 SizedBox(height: 32),
 
                 ElevatedButton(
@@ -100,15 +96,16 @@ class _LoginPageState extends State<LoginPage> {
                     if (formKey.currentState!.validate()) {
                       debugPrint("Mail${emailController.text}");
                       debugPrint("Password:${passwordController.text}");
-                      //---------------------------------Login-----------------------------------------------
+                      //---------------------------------SignUP -----------------------------------------------
+
                       var statusCode =
-                          await AuthService.loginUserWithEmailAndPassword(
-                            mail: emailController.text.trim(),
-                            password: passwordController.text.trim(),
+                          await AuthService.createUserWithEmailAndPassword(
+                            mail: emailController.text,
+                            password: passwordController.text,
                           );
-                      print("status:$statusCode");
+
                       //-----------------------------------------------
-                      if (statusCode == 'success') {
+                      if (statusCode == "success") {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => HomePage()),
@@ -117,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   child: Text(
-                    "Login",
+                    "Register",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),

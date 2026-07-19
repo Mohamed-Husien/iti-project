@@ -1,3 +1,5 @@
+import 'package:first_app/pages/login_page.dart';
+import 'package:first_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -126,20 +128,37 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      count++;
-                      setState(() {});
+                    onPressed: () async {
+                      // count++;
+                      // setState(() {});
+                      var status = await AuthService.logOut();
+                      print("logout status$status");
+                      if (status == 'success') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
+                      }
                     },
-                    child: Text("Like"),
+                    child: Text("logout"),
                   ),
                   Spacer(),
                   ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        count--;
-                      });
+                    onPressed: () async {
+                      // setState(() {
+                      //   count--;
+                      // });
+
+                      var status = await AuthService.deleteUser();
+                      print("delete user status$status");
+                      if (status == 'success') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
+                      }
                     },
-                    child: Text("Dislike"),
+                    child: Text("delete"),
                   ),
                 ],
               ),
