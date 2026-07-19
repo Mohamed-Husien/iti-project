@@ -1,4 +1,5 @@
 import 'package:first_app/pages/home_page.dart';
+import 'package:first_app/pages/note_page.dart';
 import 'package:first_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -108,7 +109,9 @@ class _LoginPageState extends State<RegisterPage> {
                       if (statusCode == "success") {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(
+                            builder: (context) => NotesScreen(),
+                          ),
                         );
                       }
                     }
